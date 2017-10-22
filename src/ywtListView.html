@@ -1,0 +1,26 @@
+<div id="customize_view">
+  <table id="">
+    <thead>
+      <tr>
+        <th></th>
+        <th>氏名</th>
+        <th>実施日</th>
+        <th>次回想定</th>
+        <th>内部メモ（覚書）</th>
+        <th>本人へのフィードバック</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(record, i) in records">
+        <td>
+          <img class="icon" src="" width="20" height="20" />
+        </td>
+        <td>{{ record.name.value }}</td>
+        <td>{{ record.date.value }}</td>
+        <td>{{ record.next_date.value }}</td>
+        <td>{{ record.memo.value }}</td>
+        <td>{{ record.feedback.value }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
