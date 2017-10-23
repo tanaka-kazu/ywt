@@ -23,32 +23,14 @@ kintone.events.on('app.record.index.show', (event) => {
   parentNode.removeChild(tableNode);
   parentNode.removeChild(pagerNode);
 
-  const fileDownload = function (fileKey, rowIndex) {
-    return new Promise(function (resolve, reject) {
-      var url = kintone.api.url('/k/v1/file', true) + '?fileKey=' + fileKey;
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-      xhr.responseType = 'blob';
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          // successful
-          resolve(xhr.response);
-        } else {
-          // fails
-          reject(Error('File download error:' + xhr.statusText));
-        }
-      };
-      xhr.onerror = function () {
-        reject(Error('There was a network error.'));
-      };
-      xhr.send();
-    }).then(function (response) {
-      // プロフィール画像レンダリング
-      const elems = document.querySelectorAll(".icon");
-      var url = window.URL || window.webkitURL;
-      elems[rowIndex].src = url.createObjectURL(response);
+  const fileDownload = async function (fileKey, rowIndex) {
+    const response = await kintoneUtility.rest.downloadFile({
+      fileKey: fileKey
     });
+    // プロフィール画像レンダリング
+    const elems = document.querySelectorAll(".icon");
+    var url = window.URL || window.webkitURL;
+    elems[rowIndex].src = url.createObjectURL(response);
   };
 
   (async () => {
@@ -66,7 +48,7 @@ kintone.events.on('app.record.index.show', (event) => {
       // プロフィール画像取得
       for (const o of optRecords) {
         if (r.mail.value === o.mail.value) {
-          const fileKey = o.profile_img.value.length > 0 ? o.profile_img.value[0].fileKey : undefined;
+          const fileKey = o.profile_img.value.length > 0 ? o.profile_img.value[0].fileKey : false;
           if (fileKey) {
             fileDownload(fileKey, i);
           }
