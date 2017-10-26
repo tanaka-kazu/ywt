@@ -13,8 +13,19 @@
 
 // カスタマイズビューのみに適用
 #customize_view {
-  @include foundation-global-styles;
-  @include foundation-button;
-  @include foundation-forms;
-  @include foundation-table;
+  // @include foundation-global-styles;
+  // @include foundation-button;
+  // @include foundation-forms;
+  // @include foundation-table;
+  @include foundation-everything;
 }
+
+.list_row.row_selected {
+  background-color: gray;
+}
+
+.ywt_list {
+  height: 900px;
+  overflow-y: scroll;
+}
+ 

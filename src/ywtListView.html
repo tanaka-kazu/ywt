@@ -1,26 +1,57 @@
 <div id="customize_view">
-  <table id="">
-    <thead>
-      <tr>
-        <th></th>
-        <th>氏名</th>
-        <th>実施日</th>
-        <th>次回想定</th>
-        <th>内部メモ（覚書）</th>
-        <th>本人へのフィードバック</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(record, i) in records">
-        <td>
-          <img class="icon" src="" width="25" height="25" />
-        </td>
-        <td>{{ record.name.value }}</td>
-        <td>{{ record.date.value }}</td>
-        <td>{{ record.next_date.value }}</td>
-        <td>{{ record.memo.value }}</td>
-        <td>{{ record.feedback.value }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="grid-x grid-margin-x">
+    <div class="medium-6 large-5 cell ywt_list">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>氏名</th>
+            <th>実施日</th>
+            <th>次回想定</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(record, i) in records" v-on:click="showDetail(record, i)" class="list_row">
+            <td>
+              <img class="icon" src="" width="30" height="30" />
+            </td>
+            <td>{{ record.name.value }}</td>
+            <td>{{ record.date.value }}</td>
+            <td>{{ record.next_date.value }}</td>
+            <td class="">
+              <button v-on:click="edit(record)" class='button tiny'>編集</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="medium-6 large-7 cell">
+      <input type="hidden" id="id" value="">
+      <button v-on:click="update" class='button'>更新</button>
+      <label>
+        <b>内部メモ（覚書）</b>
+        <textarea id="memo" rows="4"></textarea>
+      </label>
+      <hr>
+      <label>
+        <b>本人へのフィードバック</b>
+        <textarea id="feedback" rows="4"></textarea>
+      </label>
+      <hr>
+      <label>
+        <b>Ｙ</b>
+        <textarea id="y" rows="4"></textarea>
+      </label>
+      <label>
+        <b>Ｗ</b>
+        <textarea id="w" rows="4"></textarea>
+      </label>
+      <label>
+        <b>Ｔ</b>
+        <textarea id="t" rows="4"></textarea>
+      </label>
+      <button v-on:click="update" class='button'>更新</button>
+    </div>
+  </div>
 </div>
