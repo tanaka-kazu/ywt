@@ -12,46 +12,47 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(record, i) in records" v-on:click="showDetail(record, i)" class="list_row">
+          <tr v-for="(record, i) in records" v-on:click="showDetail(record, i)" class="list_row" height="60">
             <td>
-              <img class="icon" src="" width="30" height="30" />
+              <img class="icon" v-bind:src="record.profile_img" width="40" height="40" />
             </td>
             <td>{{ record.name.value }}</td>
             <td>{{ record.date.value }}</td>
             <td>{{ record.next_date.value }}</td>
-            <td class="">
-              <button v-on:click="edit(record)" class='button tiny'>編集</button>
+            <td>
+              <button v-on:click="edit(record)" class="button tiny" v-if="record.editable">編集</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="medium-6 large-7 cell">
-      <input type="hidden" id="id" value="">
-      <button v-on:click="update" class='button'>更新</button>
-      <label>
-        <b>内部メモ（覚書）</b>
-        <textarea id="memo" rows="4"></textarea>
-      </label>
-      <hr>
-      <label>
-        <b>本人へのフィードバック</b>
-        <textarea id="feedback" rows="4"></textarea>
-      </label>
-      <hr>
-      <label>
-        <b>Ｙ</b>
-        <textarea id="y" rows="4"></textarea>
-      </label>
-      <label>
-        <b>Ｗ</b>
-        <textarea id="w" rows="4"></textarea>
-      </label>
-      <label>
-        <b>Ｔ</b>
-        <textarea id="t" rows="4"></textarea>
-      </label>
-      <button v-on:click="update" class='button'>更新</button>
+      <form id="ywt_form" action="#" v-on:change="updateForm">
+        <input type="hidden" id="id" value="">
+        <button v-on:click="update" class='button'>更新</button>
+        <label id="memo_area">
+          <b>内部メモ（覚書）</b>
+          <textarea id="memo" rows="4"></textarea>
+        </label>
+        <label>
+          <b>本人へのフィードバック</b>
+          <textarea id="feedback" rows="4"></textarea>
+        </label>
+        <hr>
+        <label>
+          <b>Ｙ</b>
+          <textarea id="y" rows="4"></textarea>
+        </label>
+        <label>
+          <b>Ｗ</b>
+          <textarea id="w" rows="4"></textarea>
+        </label>
+        <label>
+          <b>Ｔ</b>
+          <textarea id="t" rows="4"></textarea>
+        </label>
+        <button v-on:click="update" class='button'>更新</button>
+      </form>
     </div>
   </div>
 </div>

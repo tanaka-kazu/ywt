@@ -23,15 +23,21 @@ kintone.events.on('app.record.index.show', (event) => {
   parentNode.removeChild(tableNode);
   parentNode.removeChild(pagerNode);
 
+  const user = kintone.getLoginUser();
+  let isModify = false;
+  // アイコン用画像設定
   const fileDownload = async function (fileKey, rowIndex) {
     const response = await kintoneUtility.rest.downloadFile({
       fileKey
     });
     // プロフィール画像レンダリング
     const elems = document.querySelectorAll(".icon");
-    var url = window.URL || window.webkitURL;
+    const url = window.URL || window.webkitURL;
     elems[rowIndex].src = url.createObjectURL(response);
   };
+
+  // 内部メモは初期は非表示
+  document.getElementById('memo_area').style.display = "none";
 
   (async () => {
     // YWTアプリのレコードを取得
@@ -54,6 +60,13 @@ kintone.events.on('app.record.index.show', (event) => {
           }
         }
       }
+      // レコード作成者以外は編集不可
+      if (r.作成者.value.code === user.code) {
+        r.editable = true;
+      }
+      else {
+        r.editable = false;
+      }
       return r;
     });
 
@@ -62,6 +75,11 @@ kintone.events.on('app.record.index.show', (event) => {
       el: '#customize_view',
       methods: {
         showDetail: function (record, rowIndex) {
+          if (isModify) {
+            if (!confirm("変更を破棄しますか？")) {
+              return;
+            }
+          }
           // 行選択表示
           const rows = document.querySelectorAll('.list_row');
           rows.forEach(function (row, i) {
@@ -72,17 +90,37 @@ kintone.events.on('app.record.index.show', (event) => {
               row.classList.remove('row_selected');
             }
           });
+          // 内部メモは作成者以外見えない、かつ更新不可
+          const memo_elem = document.getElementById('memo_area');
+          const updateButtons = document.querySelectorAll('form button');
+          if (user.code === record.作成者.value.code) {
+            document.getElementById('memo').value = record.memo.value;
+            memo_elem.style.display = "inherit";
+            for (const button of updateButtons) {
+              button.style.display = "inherit";
+            }
+          }
+          else {
+            memo_elem.style.display = "none";
+            const buttons = document.querySelectorAll('form button');
+            for (const button of updateButtons) {
+              button.style.display = "none";
+            }
+          }
           document.getElementById('id').value = record.レコード番号.value;
-          document.getElementById('memo').value = record.memo.value;
           document.getElementById('feedback').value = record.feedback.value;
           document.getElementById('y').value = record.comment_y.value;
           document.getElementById('w').value = record.comment_w.value;
           document.getElementById('t').value = record.comment_t.value;
+          isModify = false;
         },
         edit: function (record) {
           location.href = "/k/3/edit?record=" + record.レコード番号.value;
         },
         update: function () {
+          if (!isModify) {
+            return;
+          }
           const id = document.getElementById('id').value;
           if (!id) {
             return;
@@ -125,14 +163,19 @@ kintone.events.on('app.record.index.show', (event) => {
                 break;
               }
             }
+            isModify = false;
             alert("変更を保存しました．");
           }).catch(function (error) {
             alert("変更の保存に失敗しました．¥n" + JSON.stringify(error));
-          });;
+          });
+        },
+        updateForm: function () {
+          isModify = true;
         }
       },
       data: {
         records,
+        isModify
       },
     });
   })();
