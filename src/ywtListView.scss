@@ -12,19 +12,18 @@
 @include foundation-xy-grid-classes;
 
 // カスタマイズビューのみに適用
-#customize_view {
-  // @include foundation-global-styles;
-  // @include foundation-button;
-  // @include foundation-forms;
-  // @include foundation-table;
-  @include foundation-everything;
+#customize-view {
+  @include foundation-global-styles;
+  @include foundation-button;
+  @include foundation-forms;
+  @include foundation-table;
 }
 
-.list_row.row_selected {
+.list-row.row-selected {
   background-color: gray;
 }
 
-.ywt_list {
+.ywt-list {
   height: 900px;
   overflow-y: scroll;
 }

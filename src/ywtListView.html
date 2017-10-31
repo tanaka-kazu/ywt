@@ -1,6 +1,6 @@
-<div id="customize_view">
+<div id="customize-view">
   <div class="grid-x grid-margin-x">
-    <div class="medium-6 large-5 cell ywt_list">
+    <div class="medium-6 large-5 cell ywt-list">
       <table>
         <thead>
           <tr>
@@ -12,9 +12,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(record, i) in records" v-on:click="showDetail(record, i)" class="list_row" height="60">
+          <tr v-for="(record, i) in records" v-on:click="showDetail(record)" class="list-row" v-bind:class="{ 'row-selected': record.selected }"
+            height="60">
             <td>
-              <img class="icon" v-bind:src="record.profile_img" width="40" height="40" />
+              <icon-img v-bind:record=record></icon-img>
             </td>
             <td>{{ record.name.value }}</td>
             <td>{{ record.date.value }}</td>
@@ -27,31 +28,31 @@
       </table>
     </div>
     <div class="medium-6 large-7 cell">
-      <form id="ywt_form" action="#" v-on:change="updateForm">
-        <input type="hidden" id="id" value="">
-        <button v-on:click="update" class='button'>更新</button>
-        <label id="memo_area">
+      <form id="ywt-form" action="#" v-on:change="updateForm">
+        <input type="hidden" id="id" v-model="form.id">
+        <button v-on:click.prevent="update" class='button' v-if="form.editable">更新</button>
+        <label id="memo-area" v-if="form.editable">
           <b>内部メモ（覚書）</b>
-          <textarea id="memo" rows="4"></textarea>
+          <textarea id="memo" v-model="form.memo" rows="4"></textarea>
         </label>
         <label>
           <b>本人へのフィードバック</b>
-          <textarea id="feedback" rows="4"></textarea>
+          <textarea id="feedback" v-model="form.feedback" rows="4"></textarea>
         </label>
         <hr>
         <label>
           <b>Ｙ</b>
-          <textarea id="y" rows="4"></textarea>
+          <textarea id="y" v-model="form.commentY" rows="4"></textarea>
         </label>
         <label>
           <b>Ｗ</b>
-          <textarea id="w" rows="4"></textarea>
+          <textarea id="w" v-model="form.commentW" rows="4"></textarea>
         </label>
         <label>
           <b>Ｔ</b>
-          <textarea id="t" rows="4"></textarea>
+          <textarea id="t" v-model="form.commentT" rows="4"></textarea>
         </label>
-        <button v-on:click="update" class='button'>更新</button>
+        <button v-on:click.prevent="update" class='button' v-if="form.editable">更新</button>
       </form>
     </div>
   </div>
