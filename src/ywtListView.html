@@ -33,24 +33,24 @@
         <button v-on:click.prevent="update" class='button' v-if="form.editable">更新</button>
         <label id="memo-area" v-if="form.editable">
           <b>内部メモ（覚書）</b>
-          <textarea id="memo" v-model="form.memo" rows="4"></textarea>
+          <textarea id="memo" v-model="form.memo" v-bind:disabled="!form.editable" rows="4"></textarea>
         </label>
         <label>
           <b>本人へのフィードバック</b>
-          <textarea id="feedback" v-model="form.feedback" rows="4"></textarea>
+          <textarea id="feedback" v-model="form.feedback" v-bind:disabled="!form.editable" rows="4"></textarea>
         </label>
         <hr>
         <label>
           <b>Ｙ</b>
-          <textarea id="y" v-model="form.commentY" rows="4"></textarea>
+          <textarea id="y" v-model="form.commentY" v-bind:disabled="!form.editable" rows="4"></textarea>
         </label>
         <label>
           <b>Ｗ</b>
-          <textarea id="w" v-model="form.commentW" rows="4"></textarea>
+          <textarea id="w" v-model="form.commentW" v-bind:disabled="!form.editable" rows="4"></textarea>
         </label>
         <label>
           <b>Ｔ</b>
-          <textarea id="t" v-model="form.commentT" rows="4"></textarea>
+          <textarea id="t" v-model="form.commentT" v-bind:disabled="!form.editable" rows="4"></textarea>
         </label>
         <button v-on:click.prevent="update" class='button' v-if="form.editable">更新</button>
       </form>
