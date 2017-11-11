@@ -17,7 +17,6 @@ kintone.events.on('app.record.index.show', event => {
   // カスタマイズビューの場合のみスタイルシートを適用
   style.use()
 
-  const user = kintone.getLoginUser()
   let isModify = false
   render()
 
@@ -33,7 +32,7 @@ kintone.events.on('app.record.index.show', event => {
     })
 
     const records = mainRecords.map((r, i) => {
-      // プロフィール画像取得
+      // プロフィール画像のファイルキー取得
       for (const o of optRecords) {
         if (r.mail.value === o.mail.value) {
           r.fileKey =
@@ -42,14 +41,20 @@ kintone.events.on('app.record.index.show', event => {
               : null
         }
       }
-      // レコード作成者以外は編集不可
-      r.editable = r.作成者.value.code === user.code
+      // 編集権限を設定（現状は制御なし）
+      r.editable = true
       // プロフィール画像URL
       r.profile_img = ''
       // 行選択フラグ
       r.selected = false
 
       return r
+    })
+    // 実施日でレコードをソート
+    records.sort(function (a, b) {
+      if (a.date.value > b.date.value) return -1
+      if (a.date.value < b.date.value) return 1
+      return 0
     })
 
     const form = {
@@ -59,7 +64,7 @@ kintone.events.on('app.record.index.show', event => {
       commentY: '',
       commentW: '',
       commentT: '',
-      editable: false
+      editable: true
     }
 
     Vue.component('icon-img', {
@@ -102,7 +107,7 @@ kintone.events.on('app.record.index.show', event => {
         },
         edit: function (record) {
           const id = record.レコード番号.value
-          location.href = '/k/3/show#record=' + id + '&l.view=' + id + '&l.q&mode=edit'
+          location.href = `/k/3/show#record=${id}&l.view=${id}&l.q&mode=edit`
         },
         update: function () {
           if (!isModify || !form.id) {
