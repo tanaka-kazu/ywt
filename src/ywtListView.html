@@ -1,5 +1,5 @@
 <div id="customize-view">
-  <div class="grid-x grid-margin-x">
+  <div id="grid" class="grid-x grid-margin-x">
     <div class="medium-6 large-5 cell ywt-list">
       <table>
         <thead>
@@ -31,14 +31,6 @@
       <form id="ywt-form" action="#" v-on:change="updateForm">
         <input type="hidden" id="id" v-model="form.id">
         <button v-on:click.prevent="update" class='button' v-if="form.editable">更新</button>
-        <label id="memo-area" v-if="form.editable">
-          <b>内部メモ（覚書）</b>
-          <textarea id="memo" v-model="form.memo" v-bind:disabled="!form.editable" rows="4"></textarea>
-        </label>
-        <label>
-          <b>本人へのフィードバック</b>
-          <textarea id="feedback" v-model="form.feedback" v-bind:disabled="!form.editable" rows="4"></textarea>
-        </label>
         <hr>
         <label>
           <b>Ｙ</b>
@@ -51,6 +43,14 @@
         <label>
           <b>Ｔ</b>
           <textarea id="t" v-model="form.commentT" v-bind:disabled="!form.editable" rows="4"></textarea>
+        </label>
+        <label id="memo-area" v-if="form.editable">
+          <b>内部メモ（覚書）</b>
+          <textarea id="memo" v-model="form.memo" v-bind:disabled="!form.editable" rows="4"></textarea>
+        </label>
+        <label>
+          <b>本人へのフィードバック</b>
+          <textarea id="feedback" v-model="form.feedback" v-bind:disabled="!form.editable" rows="4"></textarea>
         </label>
         <button v-on:click.prevent="update" class='button' v-if="form.editable">更新</button>
       </form>

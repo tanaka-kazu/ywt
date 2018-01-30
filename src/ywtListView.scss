@@ -19,16 +19,32 @@
   @include foundation-table;
 }
 
-.list-row.row-selected {
-  background-color: gray;
+html {
+    height: 100%;
 }
 
-.ywt-list {
-  height: 900px;
-  overflow-y: scroll;
+body {
+    height: 100%;
+    margin: 0;
+}
+
+td, th {
+  padding: 0.1rem 0.5rem 0.1rem 0.5rem !important;
+}
+
+.list-row.row-selected {
+  background-color: gray;
 }
 
 .button {
   margin: 0.5rem 0 0.5rem 0 !important;
 }
- 
+
+.grid-x {
+    height: 1000px;
+}
+
+.medium-6 {
+    height: 100%;
+    overflow-y: scroll;
+}
