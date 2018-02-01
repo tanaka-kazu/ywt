@@ -98,7 +98,7 @@ kintone.events.on('app.record.index.show', event => {
             rec.selected = rec.レコード番号.value === record.レコード番号.value
           }
           form.memoStyle = record.editable ? 'inherit' : 'none'
-          form.editable = record.editable
+          form.editable = false
           form.id = record.レコード番号.value
           form.memo = record.memo.value
           form.feedback = record.feedback.value
