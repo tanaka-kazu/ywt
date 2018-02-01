@@ -1,10 +1,11 @@
+import $ from 'jquery'
 import Vue from 'vue'
 import kintoneUtility from 'kintone-utility/docs/kintoneUtility'
 import HTML_TEMPLATE from './ywtListView.html'
 import style from './ywtListView.scss'
 
 kintone.events.on('app.record.index.show', event => {
-  if (event.viewName !== 'ywt一覧') {
+  if (event.viewId !== 5328031) {
     return
   }
 
@@ -14,6 +15,12 @@ kintone.events.on('app.record.index.show', event => {
   tableNode.insertAdjacentHTML('beforebegin', HTML_TEMPLATE)
   parentNode.removeChild(tableNode)
 
+  resizeView()
+
+  $(window).resize(function () {
+    resizeView()
+  })
+
   // カスタマイズビューの場合のみスタイルシートを適用
   style.use()
 
@@ -21,10 +28,11 @@ kintone.events.on('app.record.index.show', event => {
   render()
 
   async function render() {
+    const appId = kintone.app.getId()
     // YWTアプリのレコードを取得
     const { records: mainRecords } = await kintoneUtility.rest.getRecords({
-      app: kintone.app.getId(),
-      query: kintone.app.getQuery()
+      app: appId,
+      query: "order by date desc"
     })
 
     const { records: optRecords } = await kintoneUtility.rest.getRecords({
@@ -34,7 +42,7 @@ kintone.events.on('app.record.index.show', event => {
     const records = mainRecords.map((r, i) => {
       // プロフィール画像のファイルキー取得
       for (const o of optRecords) {
-        if (r.mail.value === o.mail.value) {
+        if (r.mail.value === o.メールアドレス.value) {
           r.fileKey =
             o.profile_img.value.length > 0
               ? o.profile_img.value[0].fileKey
@@ -50,12 +58,6 @@ kintone.events.on('app.record.index.show', event => {
 
       return r
     })
-    // 実施日でレコードをソート
-    records.sort(function (a, b) {
-      if (a.date.value > b.date.value) return -1
-      if (a.date.value < b.date.value) return 1
-      return 0
-    })
 
     const form = {
       id: '',
@@ -64,11 +66,11 @@ kintone.events.on('app.record.index.show', event => {
       commentY: '',
       commentW: '',
       commentT: '',
-      editable: true
+      editable: false
     }
 
     Vue.component('icon-img', {
-      template: '<img class="icon" v-bind:src="record.profile_img" v-on:load="imgLoad" width="40" height="40" />',
+      template: '<img class="icon" v-bind:src="record.profile_img" v-on:load="imgLoad" width="48" height="48" />',
       props: ['record'],
       computed: {
         // アイコン用画像設定
@@ -96,7 +98,7 @@ kintone.events.on('app.record.index.show', event => {
             rec.selected = rec.レコード番号.value === record.レコード番号.value
           }
           form.memoStyle = record.editable ? 'inherit' : 'none'
-          form.editable = record.editable
+          form.editable = false
           form.id = record.レコード番号.value
           form.memo = record.memo.value
           form.feedback = record.feedback.value
@@ -107,7 +109,7 @@ kintone.events.on('app.record.index.show', event => {
         },
         edit: function (record) {
           const id = record.レコード番号.value
-          location.href = `/k/3/show#record=${id}&l.view=${id}&l.q&mode=edit`
+          location.href = `/k/${appId}/show#record=${id}&l.view=${id}&l.q&mode=edit`
         },
         update: function () {
           if (!isModify || !form.id) {
@@ -165,5 +167,10 @@ kintone.events.on('app.record.index.show', event => {
         form
       }
     })
+  }
+  function resizeView() {
+    var documentHeight = document.documentElement.clientHeight
+    var height = documentHeight - 350
+    document.getElementById('grid').style.height = height + 'px'
   }
 })

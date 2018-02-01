@@ -1,5 +1,5 @@
 <div id="customize-view">
-  <div class="grid-x grid-margin-x">
+  <div id="grid" class="grid-x grid-margin-x">
     <div class="medium-6 large-5 cell ywt-list">
       <table>
         <thead>
@@ -30,29 +30,42 @@
     <div class="medium-6 large-7 cell">
       <form id="ywt-form" action="#" v-on:change="updateForm">
         <input type="hidden" id="id" v-model="form.id">
-        <button v-on:click.prevent="update" class='button' v-if="form.editable">更新</button>
-        <label id="memo-area" v-if="form.editable">
-          <b>内部メモ（覚書）</b>
-          <textarea id="memo" v-model="form.memo" v-bind:disabled="!form.editable" rows="4"></textarea>
-        </label>
-        <label>
-          <b>本人へのフィードバック</b>
-          <textarea id="feedback" v-model="form.feedback" v-bind:disabled="!form.editable" rows="4"></textarea>
-        </label>
         <hr>
-        <label>
-          <b>Ｙ</b>
-          <textarea id="y" v-model="form.commentY" v-bind:disabled="!form.editable" rows="4"></textarea>
-        </label>
-        <label>
-          <b>Ｗ</b>
-          <textarea id="w" v-model="form.commentW" v-bind:disabled="!form.editable" rows="4"></textarea>
-        </label>
-        <label>
-          <b>Ｔ</b>
-          <textarea id="t" v-model="form.commentT" v-bind:disabled="!form.editable" rows="4"></textarea>
-        </label>
-        <button v-on:click.prevent="update" class='button' v-if="form.editable">更新</button>
+        <div class="row">
+          <div class="columns title">
+            <b>Y</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns comment">{{ form.commentY }}</div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="columns title">
+            <b>W</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns comment">{{ form.commentW }}</div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="columns title">
+            <b>T</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns comment">{{ form.commentT }}</div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="columns title">
+            <b>本人へのフィードバック</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns comment">{{ form.feedback }}</div>
+        </div>
       </form>
     </div>
   </div>

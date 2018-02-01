@@ -7,7 +7,7 @@ module.exports = {
     ywtListView: ['babel-polyfill', './ywtListView.js'],
   },
   output: {
-    path: path.join(os.homedir(), 'Dropbox/kintone/ywt'),
+    path: path.join(os.homedir(), 'Dropbox/n2jk_kintone/ywt'),
     filename: '[name].js',
   },
   devtool: 'inline-source-map',
