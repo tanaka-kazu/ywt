@@ -169,7 +169,8 @@ kintone.events.on('app.record.index.show', event => {
     })
   }
   function resizeView() {
-    var height = window.innerHeight * 0.7
+    var documentHeight = document.documentElement.clientHeight
+    var height = documentHeight - 350
     document.getElementById('grid').style.height = height + 'px'
   }
 })
