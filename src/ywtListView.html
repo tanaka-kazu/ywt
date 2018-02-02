@@ -1,26 +1,72 @@
-<div id="customize_view">
-  <table id="">
-    <thead>
-      <tr>
-        <th></th>
-        <th>氏名</th>
-        <th>実施日</th>
-        <th>次回想定</th>
-        <th>内部メモ（覚書）</th>
-        <th>本人へのフィードバック</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(record, i) in records">
-        <td>
-          <img class="icon" src="" width="20" height="20" />
-        </td>
-        <td>{{ record.name.value }}</td>
-        <td>{{ record.date.value }}</td>
-        <td>{{ record.next_date.value }}</td>
-        <td>{{ record.memo.value }}</td>
-        <td>{{ record.feedback.value }}</td>
-      </tr>
-    </tbody>
-  </table>
+<div id="customize-view">
+  <div id="grid" class="grid-x grid-margin-x">
+    <div class="medium-6 large-5 cell ywt-list">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>氏名</th>
+            <th>実施日</th>
+            <th>次回想定</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(record, i) in records" v-on:click="showDetail(record)" class="list-row" v-bind:class="{ 'row-selected': record.selected }"
+            height="60">
+            <td>
+              <icon-img v-bind:record=record></icon-img>
+            </td>
+            <td>{{ record.name.value }}</td>
+            <td>{{ record.date.value }}</td>
+            <td>{{ record.next_date.value }}</td>
+            <td>
+              <button v-on:click="edit(record)" class="button tiny" v-if="record.editable">編集</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="medium-6 large-7 cell">
+      <form id="ywt-form" action="#" v-on:change="updateForm">
+        <input type="hidden" id="id" v-model="form.id">
+        <hr>
+        <div class="row">
+          <div class="columns title">
+            <b>Y</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns comment">{{ form.commentY }}</div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="columns title">
+            <b>W</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns comment">{{ form.commentW }}</div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="columns title">
+            <b>T</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns comment">{{ form.commentT }}</div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="columns title">
+            <b>本人へのフィードバック</b>
+          </div>
+        </div>
+        <div class="row">
+          <div class="columns comment">{{ form.feedback }}</div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
